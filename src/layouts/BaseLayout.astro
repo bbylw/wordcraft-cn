@@ -7,6 +7,7 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+const site = new URL(Astro.url.pathname, Astro.site ?? Astro.url).origin;
 ---
 
 <!doctype html>
@@ -15,6 +16,7 @@ const { title, description } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/images/brand/artcraft-mark.svg" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site ?? Astro.url).href} />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)" />
@@ -22,7 +24,7 @@ const { title, description } = Astro.props;
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="/images/screens/hero.webp" />
+    <meta property="og:image" content={new URL('/images/screens/hero.webp', site).href} />
     <meta name="twitter:card" content="summary_large_image" />
     <script is:inline>
       (function () {

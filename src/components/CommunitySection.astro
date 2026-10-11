@@ -1,0 +1,75 @@
+---
+import { Icon } from 'astro-icon/components';
+import { artcraftUrl, discordUrl } from '~/data/content';
+---
+
+<section class="shell py-24 md:py-32">
+  <div class="grid gap-x-12 gap-y-12 md:grid-cols-12" data-reveal>
+    <div class="md:col-span-7">
+      <img
+        src="/images/brand/artcraft-logo.svg"
+        alt="ArtCraft"
+        width="150"
+        height="34"
+        loading="lazy"
+        decoding="async"
+        class="h-7 w-auto opacity-90 dark:hidden"
+      />
+      <img
+        src="/images/brand/artcraft-logo-white.svg"
+        alt="ArtCraft"
+        width="150"
+        height="34"
+        loading="lazy"
+        decoding="async"
+        class="hidden h-7 w-auto opacity-90 dark:block"
+      />
+
+      <h2 class="mt-9 text-[2rem] font-medium leading-[1.2] tracking-tight text-ink md:text-[2.5rem]">
+        来和我们一起创作吧
+      </h2>
+
+      <p class="mt-6 max-w-[54ch] text-[17.5px] leading-[1.9] text-ink-soft">
+        各类艺术家相聚的地方：绘画的、摄影的、插图的、剪片的、排版的，以及还在摸索自己喜欢创作什么的人。
+        分享你的作品，寻求帮助，或者告诉我们哪里不好用。
+      </p>
+
+      <a
+        href={discordUrl}
+        class="btn btn-primary mt-9 h-12 w-fit px-7 text-[15px]"
+        target="_blank"
+        rel="noreferrer noopener"
+      >
+        <Icon name="ph:chat-circle-dots" class="h-[19px] w-[19px]" aria-hidden="true" />
+        加入 Discord
+      </a>
+    </div>
+
+    <div class="md:col-span-5 md:border-l md:border-line md:pl-10">
+      <p class="folio">入口</p>
+      <ul class="mt-5 space-y-0">
+        {
+          [
+            { label: 'Discord', href: discordUrl, note: 'discord.gg/artcraft' },
+            { label: 'ArtCraft', href: artcraftUrl, note: 'getartcraft.com' },
+            { label: 'Crafting 应用系列', href: 'https://getartcraft.com/apps', note: '八款工具，皆可独立运行' },
+          ].map((item) => (
+            <li class="border-t border-line">
+              <a
+                href={item.href}
+                target="_blank"
+                rel="noreferrer noopener"
+                class="group flex items-baseline justify-between gap-4 py-4"
+              >
+                <span class="text-[16px] text-ink transition-colors duration-200 group-hover:text-accent">
+                  {item.label}
+                </span>
+                <span class="folio">{item.note}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

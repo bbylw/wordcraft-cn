@@ -1,0 +1,222 @@
+---
+import { Icon } from 'astro-icon/components';
+import CodeBlock from '~/components/react/CodeBlock';
+import SiteFooter from '~/components/SiteFooter.astro';
+import SiteHeader from '~/components/SiteHeader.astro';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+
+const repoUrl = 'https://github.com/storytold/wordcraft';
+
+const desktop = `git clone ${repoUrl}
+cd wordcraft
+cargo run --release -p wordcraft -- --sample
+cargo run --release -p wordcraft -- report.docx`;
+
+const cli = `wordcraft-cli convert report.docx report.pdf
+wordcraft-cli text report.docx
+wordcraft-cli inspect report.docx
+wordcraft-cli run --template sample \\
+  --cmd 'select.text={"text":"Membership"}' --cmd format.bold --save out.docx`;
+
+const web = 'cd apps/wordcraft-web && trunk serve';
+
+const mcp = `claude mcp add wordcraft -- wordcraft-cli mcp
+wordcraft --control 7981 &
+claude mcp add wordcraft-app -- wordcraft-cli mcp --connect 127.0.0.1:7981`;
+
+const sections = [
+  { id: 'desktop', label: '从源码运行' },
+  { id: 'cli', label: '命令行' },
+  { id: 'web', label: '浏览器版本' },
+  { id: 'agents', label: '面向智能体' },
+  { id: 'logs', label: '日志' },
+];
+
+const cliCommands = [
+  { cmd: 'wordcraft-cli convert report.docx report.pdf', body: '在 docx、pdf、odt、rtf、html、md、tex、txt、png 之间转换。' },
+  { cmd: 'wordcraft-cli text report.docx', body: '输出纯文本。' },
+  { cmd: 'wordcraft-cli inspect report.docx', body: '以 JSON 输出文档结构。' },
+  {
+    cmd: "wordcraft-cli run --template sample --cmd '…' --save out.docx",
+    body: '按命令序列驱动文档，可重复执行并保存结果。',
+  },
+];
+
+const logPaths = [
+  { os: 'Linux', path: '$XDG_CONFIG_HOME/wordcraft/logs/', hint: '默认 ~/.config/wordcraft/logs/' },
+  { os: 'macOS', path: '~/Library/Application Support/WordCraft/logs/' },
+  { os: 'Windows', path: '%APPDATA%\\WordCraft\\logs\\' },
+];
+
+const logNotes = [
+  '每次启动会把上一次的日志移到 wordcraft.1.log，再把那份移到 wordcraft.2.log，因此一次崩溃运行的日志会在下次启动后保留。',
+  '日志增长到 16 MiB 后停止写入。--version 不写文件，以 WORDCRAFT_NO_PREFS 运行只写入标准错误。',
+  '文档文本永远不会被记录，崩溃信息会省略它所引用的文本。',
+  '默认情况下 WordCraft 自身的 crate 以 info 级别记录，其余一切以 warn。RUST_LOG 会将其替换为 env_logger 风格的规则，例如 RUST_LOG=warn,wordcraft_docx=trace。',
+];
+---
+
+<BaseLayout
+  title="快速开始 · WordCraft"
+  description="WordCraft 快速开始：从源码运行桌面应用、使用命令行工具、在浏览器中打开，以及通过 MCP 接入 AI 智能体。"
+>
+  <SiteHeader />
+  <main id="main" class="shell py-16 md:py-20">
+    <nav aria-label="面包屑" class="folio flex items-center gap-2">
+      <a href="/" class="transition-colors duration-200 hover:text-accent">首页</a>
+      <span aria-hidden="true">/</span>
+      <span class="text-ink-soft">快速开始</span>
+    </nav>
+
+    <div class="mt-10 grid gap-x-12 gap-y-6 md:grid-cols-12">
+      <div class="md:col-span-8">
+        <h1 class="text-[2.25rem] font-medium leading-[1.16] tracking-tight text-ink md:text-[2.875rem]">
+          快速开始
+        </h1>
+        <p class="mt-6 max-w-[58ch] text-[18px] leading-[1.85] text-ink-soft">
+          从源码构建、命令行批处理，到浏览器里的 WebAssembly 版本，以及接入 AI 智能体的 MCP 服务器。
+        </p>
+      </div>
+      <div class="md:col-span-4 md:border-l md:border-line md:pl-8">
+        <p class="folio">前提</p>
+        <p class="mt-3 text-[15px] leading-[1.85] text-ink-soft">
+          Rust 工具链与 Cargo；浏览器版本需要 Trunk。文档路径与命令均来自项目仓库。
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-16 grid gap-12 lg:grid-cols-[13rem_1fr] lg:gap-16">
+      <nav aria-label="本页目录" class="lg:sticky lg:top-24 lg:self-start">
+        <h2 class="folio">本页目录</h2>
+        <ul class="mt-4 flex gap-x-6 gap-y-2 overflow-x-auto pb-1 lg:flex-col lg:gap-0 lg:overflow-visible">
+          {
+            sections.map((section) => (
+              <li class="shrink-0">
+                <a
+                  href={`#${section.id}`}
+                  class="block whitespace-nowrap border-l-2 border-transparent py-2 pl-3 text-[14.5px] text-ink-mute transition-colors duration-200 hover:border-accent hover:text-ink"
+                >
+                  {section.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="min-w-0 space-y-20">
+        <section id="desktop" class="scroll-mt-28">
+          <h2 class="text-[1.625rem] font-medium tracking-tight text-ink">从源码运行</h2>
+          <span class="sigil mt-5" aria-hidden="true"></span>
+          <p class="dropcap mt-6 max-w-[62ch] text-[16.5px] leading-[1.9] text-ink-soft">
+            克隆仓库后即可运行桌面应用。加 <code class="font-mono text-[15px] text-ink">--sample</code>{' '}
+            会打开内置的示例文档《The Open Studio Handbook》，也可以直接传入一个文档路径。
+            首次构建需要下载并编译全部 crate，耗时较长。
+          </p>
+          <div class="mt-7 max-w-[46rem]">
+            <CodeBlock code={desktop} caption="shell" client:visible />
+          </div>
+        </section>
+
+        <section id="cli" class="scroll-mt-28">
+          <h2 class="text-[1.625rem] font-medium tracking-tight text-ink">命令行</h2>
+          <span class="sigil mt-5" aria-hidden="true"></span>
+          <p class="mt-6 max-w-[62ch] text-[16.5px] leading-[1.9] text-ink-soft">
+            <code class="font-mono text-[15px] text-ink">wordcraft-cli</code>{' '}
+            不需要打开窗口即可完成转换、抽取与自动化操作，适合放进脚本里。
+          </p>
+          <div class="mt-7 max-w-[46rem]">
+            <CodeBlock code={cli} caption="shell" client:visible />
+          </div>
+          <dl class="mt-10 max-w-[62ch]">
+            {
+              cliCommands.map((item) => (
+                <div class="border-t border-line pt-4 first:mt-3 first:border-t-0 first:pt-0">
+                  <dt class="font-mono text-[13.5px] leading-7 text-ink">{item.cmd}</dt>
+                  <dd class="mt-1.5 text-[15.5px] leading-[1.85] text-ink-soft">{item.body}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </section>
+
+        <section id="web" class="scroll-mt-28">
+          <h2 class="text-[1.625rem] font-medium tracking-tight text-ink">浏览器版本</h2>
+          <span class="sigil mt-5" aria-hidden="true"></span>
+          <p class="mt-6 max-w-[62ch] text-[16.5px] leading-[1.9] text-ink-soft">
+            Web 端由 Trunk 提供开发服务器。启动后打开{' '}
+            <code class="font-mono text-[15px] text-ink">http://127.0.0.1:8771/?sample</code>{' '}
+            即可在浏览器中运行整个应用。
+          </p>
+          <div class="mt-7 max-w-[46rem]">
+            <CodeBlock code={web} caption="shell" client:visible />
+          </div>
+        </section>
+
+        <section id="agents" class="scroll-mt-28">
+          <h2 class="text-[1.625rem] font-medium tracking-tight text-ink">面向智能体</h2>
+          <span class="sigil mt-5" aria-hidden="true"></span>
+          <p class="mt-6 max-w-[62ch] text-[16.5px] leading-[1.9] text-ink-soft">
+            既可以注册无界面的命令行工具，也可以让 MCP 服务器连上正在运行的应用，让智能体在看得见界面的情况下操作。
+          </p>
+          <div class="mt-7 max-w-[46rem]">
+            <CodeBlock code={mcp} caption="shell" client:visible />
+          </div>
+          <p class="mt-6">
+            <a
+              href="/#agents"
+              class="inline-flex items-center gap-1.5 text-[15.5px] text-ink-soft underline underline-offset-4 transition-colors hover:text-accent"
+            >
+              查看完整的工具清单 <Icon name="ph:arrow-right" class="h-4 w-4" aria-hidden="true" />
+            </a>
+          </p>
+        </section>
+
+        <section id="logs" class="scroll-mt-28">
+          <h2 class="text-[1.625rem] font-medium tracking-tight text-ink">日志</h2>
+          <span class="sigil mt-5" aria-hidden="true"></span>
+          <p class="mt-6 max-w-[62ch] text-[16.5px] leading-[1.9] text-ink-soft">
+            桌面应用会把日志写入标准错误，以及其偏好设置旁边的{' '}
+            <code class="font-mono text-[15px] text-ink">logs/wordcraft.log</code>。从桌面菜单或 Dock
+            启动时没有终端，因此这个文件就是要附在缺陷报告里的内容。
+          </p>
+
+          <ul class="mt-9 grid gap-0 sm:grid-cols-3">
+            {
+              logPaths.map((item) => (
+                <li class="border-t border-line py-5 pr-0 sm:border-l sm:border-line sm:first:border-l-0 sm:pl-5 sm:first:pl-0">
+                  <p class="folio">{item.os}</p>
+                  <p class="mt-2 font-mono text-[12.5px] leading-5 text-ink [overflow-wrap:anywhere]">
+                    {item.path}
+                  </p>
+                  {item.hint ? <p class="mt-2 font-mono text-[11.5px] text-ink-mute">{item.hint}</p> : null}
+                </li>
+              ))
+            }
+          </ul>
+
+          <ul class="mt-10 max-w-[64ch] space-y-4">
+            {
+              logNotes.map((note) => (
+                <li class="flex gap-3 border-t border-line pt-4 text-[15.5px] leading-[1.85] text-ink-soft">
+                  <Icon name="ph:info" class="mt-[4px] h-[16px] w-[16px] shrink-0 text-accent" aria-hidden="true" />
+                  <span>{note}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <section class="border-t border-line pt-10">
+          <h2 class="text-[1.625rem] font-medium tracking-tight text-ink">接下来</h2>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a href="/#features" class="btn btn-ghost h-11 px-5 text-[15px]">功能总览</a>
+            <a href="/#download" class="btn btn-ghost h-11 px-5 text-[15px]">下载</a>
+            <a href="/#architecture" class="btn btn-ghost h-11 px-5 text-[15px]">架构</a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <SiteFooter />
+</BaseLayout>

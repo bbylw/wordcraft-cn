@@ -1,0 +1,29 @@
+---
+import FeatureExplorer from '~/components/react/FeatureExplorer';
+import SectionHeader from '~/components/SectionHeader.astro';
+import { features, formats } from '~/data/content';
+---
+
+<section id="features" class="shell scroll-mt-28 py-24 md:py-32">
+  <div class="grid gap-x-12 gap-y-10 md:grid-cols-12" data-reveal>
+    <div class="md:col-span-8">
+      <SectionHeader
+        title="功能总览"
+        standfirst="十三个领域，逐项列出当前可用的能力。逐项、分领域的真实情况见仓库中的 ROADMAP 与对等性评估文档。"
+      />
+    </div>
+
+    <div class="md:col-span-4 md:border-l md:border-line md:pl-8">
+      <p class="folio">读写格式</p>
+      <ul class="mt-4 flex flex-wrap gap-x-3 gap-y-2">
+        {
+          formats.map((format) => (
+            <li class="serif text-[15.5px] leading-none text-ink-soft">{format}</li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+
+  <FeatureExplorer domains={features} client:visible />
+</section>

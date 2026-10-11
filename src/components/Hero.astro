@@ -1,0 +1,126 @@
+---
+import { Icon } from 'astro-icon/components';
+import { platforms } from '~/data/content';
+
+const platformIcons: Record<(typeof platforms)[number], string> = {
+  macOS: 'ph:apple-logo',
+  Windows: 'ph:windows-logo',
+  Linux: 'ph:linux-logo',
+  FreeBSD: 'ph:terminal-window',
+  WebAssembly: 'ph:globe',
+};
+
+const colophon = [
+  { label: '阶段', value: 'alpha（内测）' },
+  { label: '许可', value: 'MIT 或 Apache-2.0' },
+  { label: '命令', value: '422' },
+  { label: '功能覆盖', value: '88%' },
+];
+---
+
+<section class="relative overflow-hidden">
+  <div
+    class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[520px]"
+    style="background: radial-gradient(58% 68% at 70% 0%, var(--hero-wash) 0%, transparent 72%);"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="shell pt-14 md:pt-20">
+    <div class="grid gap-x-12 gap-y-12 lg:grid-cols-12">
+      <div class="lg:col-span-7">
+        <p data-enter style="--enter-delay: 40ms" class="folio">RUST · 净室实现 · 开源</p>
+
+        <h1
+          data-enter
+          style="--enter-delay: 120ms"
+          class="mt-6 text-[2.375rem] font-medium leading-[1.16] tracking-tight text-ink md:text-[3.125rem] xl:text-[3.5rem]"
+        >
+          用 Rust 从零重写的开源文字处理器
+        </h1>
+
+        <span data-enter style="--enter-delay: 200ms" class="sigil mt-8" aria-hidden="true"></span>
+
+        <p
+          data-enter
+          style="--enter-delay: 240ms"
+          class="mt-7 max-w-[36ch] text-[18px] leading-[1.8] text-ink-soft md:text-[19px]"
+        >
+          沿用你早已熟悉的 Word 工作流。读写 .docx，原生运行于 macOS、Windows、Linux、BSD 与浏览器。
+        </p>
+
+        <div
+          data-enter
+          style="--enter-delay: 320ms"
+          class="mt-9 flex flex-wrap items-center gap-3"
+        >
+          <a href="/#download" class="btn btn-primary h-12 px-6 text-[15px]">
+            下载 WordCraft
+            <Icon name="ph:arrow-down" class="h-[18px] w-[18px]" aria-hidden="true" />
+          </a>
+          <a href="/quickstart" class="btn btn-ghost h-12 px-6 text-[15px]">
+            快速开始
+            <Icon name="ph:arrow-right" class="h-[18px] w-[18px]" aria-hidden="true" />
+          </a>
+        </div>
+      </div>
+
+      <figure class="lg:col-span-5" data-enter style="--enter-delay: 260ms">
+        <div class="overflow-hidden rounded-card border border-line bg-surface">
+          <img
+            src="/images/screens/hero.webp"
+            alt="WordCraft 主界面：功能区的开始选项卡展开在一份两页文档之上，左侧导航窗格列出标题，样式库实时预览正文、标题 1、标题与副标题"
+            width="1600"
+            height="1000"
+            fetchpriority="high"
+            decoding="async"
+            class="block aspect-[16/10] w-full object-cover"
+          />
+        </div>
+        <figcaption class="mt-3.5 flex gap-3 border-t border-line pt-3">
+          <span class="folio shrink-0">示例文档</span>
+          <span class="text-[13.5px] leading-relaxed text-ink-soft">
+            《The Open Studio Handbook》，功能区、实时样式库、标尺与导航窗格。
+          </span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="shell mt-14 md:mt-20">
+    <div class="border-y border-line py-4">
+      <ul class="grid grid-cols-2 gap-x-8 gap-y-5 sm:grid-cols-4">
+        {
+          colophon.map((item, index) => (
+            <li
+              class:list={[
+                'border-line',
+                index % 2 === 1 && 'border-l pl-4',
+                index !== 0 && 'sm:border-l sm:pl-4',
+              ]}
+            >
+              <p class="folio">{item.label}</p>
+              <p class="serif mt-1.5 text-[19px] leading-snug text-ink">{item.value}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+
+  <div class="shell mt-6">
+    <div
+      class="flex flex-wrap items-center gap-x-3 gap-y-2 pb-16 md:pb-20"
+    >
+      <span class="mr-1 text-[13.5px] text-ink-mute">一套代码库，原生运行于</span>
+      {
+        platforms.map((platform) => (
+          <span class="chip">
+            <Icon name={platformIcons[platform]} class="h-[15px] w-[15px] text-ink-soft" aria-hidden="true" />
+            {platform}
+          </span>
+        ))
+      }
+    </div>
+  </div>
+</section>

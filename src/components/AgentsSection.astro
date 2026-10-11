@@ -1,0 +1,103 @@
+---
+import { Icon } from 'astro-icon/components';
+import CodeBlock from '~/components/react/CodeBlock';
+import SectionHeader from '~/components/SectionHeader.astro';
+import { mcpTools, repoUrl } from '~/data/content';
+
+const doc = (path: string) => `${repoUrl}/blob/main/${path}`;
+
+const headless = 'claude mcp add wordcraft -- wordcraft-cli mcp';
+const attach = `wordcraft --control 7981 &
+claude mcp add wordcraft-app -- wordcraft-cli mcp --connect 127.0.0.1:7981`;
+---
+
+<section id="agents" class="border-y border-line bg-surface py-24 md:py-32">
+  <div class="shell">
+    <div data-reveal>
+      <SectionHeader
+        title="可由人驱动，也可由智能体驱动"
+        standfirst="WordCraft 从设计之初就既可由人驱动，也可由 AI 智能体驱动。每个操作都是一个带 id 的命令。"
+      />
+    </div>
+
+    <div class="mt-14 grid gap-x-12 gap-y-10 md:grid-cols-12" data-reveal>
+      <div class="md:col-span-8">
+        <p class="dropcap max-w-[64ch] text-[17px] leading-[1.9] text-ink-soft">
+          同样的 422 个命令同时服务于功能区、键盘快捷键、命令搜索、命令行工具与 MCP 服务器。
+          智能体不需要理解界面，只需要按 id 调用命令；界面只是这些命令的一层可视化。
+        </p>
+        <p class="mt-5 max-w-[64ch] text-[17px] leading-[1.9] text-ink-soft">
+          命令可以批量提交，一次调用内按顺序执行多条；处理结果再通过 inspect_document 读回，不必逐条确认。
+        </p>
+      </div>
+      <dl class="grid gap-5 sm:grid-cols-2 md:col-span-4 md:grid-cols-1">
+        {[
+          { k: '调用方式', v: '按 id 执行命令' },
+          { k: '入口', v: 'MCP 服务器 / 控制端口' },
+          { k: '核验', v: '无需截图，inspect_document' },
+        ].map((row) => (
+          <div class="border-t border-line pt-3.5">
+            <dt class="folio">{row.k}</dt>
+            <dd class="mt-1.5 text-[16px] leading-snug text-ink">{row.v}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+
+    <div class="mt-14 grid gap-8 md:grid-cols-2" data-reveal>
+      <div class="min-w-0">
+        <h3 class="text-[16px] font-semibold text-ink">无界面的文档操作</h3>
+        <p class="mt-2 text-[15px] leading-relaxed text-ink-soft">
+          直接注册命令行工具，智能体在无界面模式下读写文档。
+        </p>
+        <div class="mt-4">
+          <CodeBlock code={headless} caption="shell" client:visible />
+        </div>
+      </div>
+
+      <div class="min-w-0">
+        <h3 class="text-[16px] font-semibold text-ink">驱动正在运行的应用</h3>
+        <p class="mt-2 text-[15px] leading-relaxed text-ink-soft">
+          让应用开放控制端口，再把 MCP 服务器连上去，界面状态与文档内容都能操作。
+        </p>
+        <div class="mt-4">
+          <CodeBlock code={attach} caption="shell" client:visible />
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-16" data-reveal>
+      <h3 class="text-[19px] font-medium tracking-tight text-ink">工具清单</h3>
+      <ul class="mt-6 grid gap-x-10 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          mcpTools
+            .filter((tool) => !tool.runtimeOnly)
+            .map((tool) => (
+              <li class="border-t border-line pt-3.5">
+                <code class="font-mono text-[13.5px] font-medium text-ink">{tool.name}</code>
+                <p class="mt-1.5 text-[14px] leading-relaxed text-ink-soft">{tool.duty}</p>
+              </li>
+            ))
+        }
+      </ul>
+      <div class="mt-8 grid gap-x-12 gap-y-8 md:grid-cols-12">
+        <p class="max-w-[64ch] text-[15.5px] leading-[1.9] text-ink-soft md:col-span-6">
+          应用运行时还会多出 <code class="font-mono text-[14px] text-ink">screenshot</code>、
+          <code class="font-mono text-[14px] text-ink">click</code> 与 <code class="font-mono text-[14px] text-ink">key</code>
+          三个工具，用来驱动界面本身。
+        </p>
+        <p class="max-w-[64ch] text-[15.5px] leading-[1.9] text-ink-soft md:col-span-6">
+          智能体可以通过 <code class="font-mono text-[14px] text-ink">inspect_document</code> 在无需截图的情况下核验结果。宏可以记录任意命令序列并回放。
+        </p>
+      </div>
+      <p class="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3 text-[15px]">
+        <a href={doc('docs/mcp.md')} class="inline-flex items-center gap-1.5 text-ink-soft underline underline-offset-4 transition-colors hover:text-accent" target="_blank" rel="noreferrer noopener">
+          MCP 文档 <Icon name="ph:arrow-square-out" class="h-4 w-4" aria-hidden="true" />
+        </a>
+        <a href={doc('docs/control-protocol.md')} class="inline-flex items-center gap-1.5 text-ink-soft underline underline-offset-4 transition-colors hover:text-accent" target="_blank" rel="noreferrer noopener">
+          控制协议 <Icon name="ph:arrow-square-out" class="h-4 w-4" aria-hidden="true" />
+        </a>
+      </p>
+    </div>
+  </div>
+</section>

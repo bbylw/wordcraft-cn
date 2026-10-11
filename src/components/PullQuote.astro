@@ -1,0 +1,41 @@
+---
+import { discordUrl } from '~/data/content';
+---
+
+<section class="py-24 md:py-32">
+  <div class="shell">
+    <div class="grid gap-x-12 gap-y-10 md:grid-cols-12" data-reveal>
+      <blockquote class="md:col-span-9">
+        <span class="sigil" aria-hidden="true"></span>
+        <p
+          class="serif mt-7 text-[1.875rem] font-medium leading-[1.45] text-ink md:text-[2.5rem]"
+        >
+          「只要你创作，<br class="hidden sm:block" />你就是其中一员。」
+        </p>
+        <footer class="mt-8 flex items-center gap-3 border-t border-line pt-4">
+          <span class="folio">出处</span>
+          <span class="text-[14px] text-ink-soft">
+            ArtCraft 社区召集令，收录于 WordCraft 项目说明
+          </span>
+        </footer>
+      </blockquote>
+
+      <div class="md:col-span-3">
+        <div class="border-l border-line pl-6 md:border-l-0 md:pl-0 md:pt-1">
+          <p class="folio">含义</p>
+          <p class="mt-3 text-[15px] leading-[1.8] text-ink-soft">
+            这句话出自 ArtCraft 社区。WordCraft 就是给这个社区的：无论你用什么媒介、入行多久，工具都应该跟得上。
+          </p>
+          <a
+            href={discordUrl}
+            target="_blank"
+            rel="noreferrer noopener"
+            class="mt-5 inline-flex items-center gap-1.5 text-[14px] text-ink-soft underline underline-offset-4 transition-colors duration-200 hover:text-accent"
+          >
+            来 Discord 打个招呼
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

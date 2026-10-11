@@ -1,0 +1,81 @@
+---
+import { Icon } from 'astro-icon/components';
+import CodeBlock from '~/components/react/CodeBlock';
+import DownloadTabs from '~/components/react/DownloadTabs';
+import SectionHeader from '~/components/SectionHeader.astro';
+import { downloads, latestReleaseUrl, releasesUrl, repoUrl } from '~/data/content';
+
+const powershell = `$env:WGPU_BACKEND = "vulkan"
+& .\\wordcraft.exe
+Remove-Item Env:WGPU_BACKEND`;
+---
+
+<section id="download" class="shell scroll-mt-28 py-24 md:py-32">
+  <div data-reveal>
+    <SectionHeader
+      title="下载"
+      standfirst="最新版本包含下列全部构建。文件名中的 <ver> 为版本号，SHA256SUMS.txt 列出了每个文件的校验和。"
+    />
+  </div>
+
+  <div class="mt-16" data-reveal>
+    <DownloadTabs platforms={downloads} releaseUrl={latestReleaseUrl} client:visible />
+  </div>
+
+  <div class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 text-[15px]" data-reveal>
+    <span>
+      想找更早的版本及其说明？
+      <a href={releasesUrl} class="text-ink underline underline-offset-4 transition-colors hover:text-accent" target="_blank" rel="noreferrer noopener">所有版本</a>
+    </span>
+    <span>
+      想自己编译？
+      <a href={repoUrl} class="text-ink underline underline-offset-4 transition-colors hover:text-accent" target="_blank" rel="noreferrer noopener">克隆仓库</a>
+    </span>
+  </div>
+
+  <details class="group mt-16 border-t border-line" data-reveal>
+    <summary class="flex cursor-pointer list-none items-center gap-2.5 py-5 text-[16px] font-medium text-ink [&::-webkit-details-marker]:hidden">
+      <Icon
+        name="ph:caret-right"
+        class="h-4 w-4 shrink-0 text-ink-mute transition-transform duration-200 group-open:rotate-90"
+      />
+      疑难排解：Windows 上打不开或运行缓慢
+    </summary>
+    <div class="pb-4">
+      <div class="grid gap-x-12 gap-y-10 md:grid-cols-2">
+        <div>
+          <h3 class="text-[16px] font-semibold text-ink">应用一闪即退</h3>
+          <p class="mt-3 text-[15.5px] leading-[1.85] text-ink-soft">
+            桌面应用默认仅初始化 DirectX 12。让 wgpu 同时创建 OpenGL 实例，可能会在窗口出现前就让某些显卡驱动（AMD 的
+            atio6axx.dll）崩溃。用 <code class="font-mono text-[14.5px] text-ink">WGPU_BACKEND</code> 覆盖默认设置用于排障，例如
+            <code class="font-mono text-[14.5px] text-ink">dx12</code> 或 <code class="font-mono text-[14.5px] text-ink">vulkan</code>。在 PowerShell
+            中，于包含该可执行文件的文件夹下执行：
+          </p>
+          <div class="mt-5 max-w-[30rem]">
+            <CodeBlock code={powershell} caption="PowerShell" client:visible />
+          </div>
+          <p class="mt-4 text-[14px] leading-[1.8] text-ink-mute">
+            显式指定 <code class="font-mono text-[13px]">gl</code> 可能在受影响的系统上再次引发驱动崩溃。macOS、Linux 与 Web
+            的默认后端保持不变。
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-[16px] font-semibold text-ink">较老的电脑上运行缓慢</h3>
+          <p class="mt-3 text-[15.5px] leading-[1.85] text-ink-soft">
+            当 DirectX 12 找不到带对应驱动的独立显卡时（例如 Windows 11 上的 Intel 第四代核显），它只会提供微软的软件渲染器，由处理器逐帧绘制。
+          </p>
+          <p class="mt-4 text-[15.5px] leading-[1.85] text-ink-soft">
+            此时 WordCraft 会自动改用 OpenGL，无需任何设置。日志文件会以{' '}
+            <code class="font-mono text-[14.5px] text-ink">graphics:</code> 开头的行记录这一选择。
+          </p>
+          <p class="mt-4 text-[15.5px] leading-[1.85] text-ink-soft">
+            <code class="font-mono text-[14.5px] text-ink">WGPU_BACKEND</code> 仍可覆盖它，例如{' '}
+            <code class="font-mono text-[14.5px] text-ink">gl</code> 或{' '}
+            <code class="font-mono text-[14.5px] text-ink">dx12</code>。
+          </p>
+        </div>
+      </div>
+    </div>
+  </details>
+</section>

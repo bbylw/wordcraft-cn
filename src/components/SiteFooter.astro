@@ -1,0 +1,113 @@
+---
+import { Icon } from 'astro-icon/components';
+import { artcraftUrl, discordUrl, latestReleaseUrl, releasesUrl, repoUrl } from '~/data/content';
+
+const doc = (path: string) => `${repoUrl}/blob/main/${path}`;
+
+const columns = [
+  {
+    title: '项目',
+    links: [
+      { label: '功能一览', href: '/#tour' },
+      { label: '为何选择', href: '/#why' },
+      { label: '功能总览', href: '/#features' },
+      { label: '路线图', href: '/#roadmap' },
+      { label: '快速开始', href: '/quickstart' },
+    ],
+  },
+  {
+    title: '仓库',
+    links: [
+      { label: 'GitHub 源码', href: repoUrl },
+      { label: '最新版本', href: latestReleaseUrl },
+      { label: '所有版本', href: releasesUrl },
+      { label: 'ROADMAP.md', href: doc('ROADMAP.md') },
+      { label: 'AGENTS.md', href: doc('AGENTS.md') },
+      { label: '我们的不足之处', href: doc('docs/gaps.md') },
+    ],
+  },
+  {
+    title: '文档',
+    links: [
+      { label: 'MCP 服务器', href: doc('docs/mcp.md') },
+      { label: '控制协议', href: doc('docs/control-protocol.md') },
+      { label: '对等性评估', href: doc('docs/target-app-parity.md') },
+      { label: '功能清单', href: doc('docs/parity-checklist.md') },
+      { label: '素材署名', href: doc('ATTRIBUTION.md') },
+    ],
+  },
+  {
+    title: '系列',
+    links: [
+      { label: 'Crafting 应用', href: 'https://getartcraft.com/apps' },
+      { label: 'ArtCraft', href: artcraftUrl },
+      { label: 'WordCraft 官网', href: 'https://getartcraft.com/apps/wordcraft' },
+    ],
+  },
+];
+---
+
+<footer class="border-t-2 border-ink">
+  <div class="shell">
+    <div class="grid gap-x-12 gap-y-12 border-b border-line py-16 md:grid-cols-12">
+      <div class="md:col-span-4">
+        <a href="/" class="flex items-center gap-2.5" aria-label="WordCraft 首页">
+          <img src="/images/brand/artcraft-mark.svg" alt="" width="26" height="26" class="h-[26px] w-[26px]" />
+          <span class="serif text-[19px] font-semibold tracking-tight text-ink">WordCraft</span>
+        </a>
+        <p class="mt-5 max-w-[38ch] text-[15.5px] leading-[1.85] text-ink-soft">
+          写作与文档排版。一款开源、以净室方式重新实现的文字处理器，完全用 Rust 重写。
+        </p>
+        <a
+          href={discordUrl}
+          class="btn btn-ghost mt-7 h-10 px-4 text-sm"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          <Icon name="ph:chat-circle-dots" class="h-[17px] w-[17px]" aria-hidden="true" />
+          加入 Discord
+        </a>
+      </div>
+
+      {
+        columns.map((column) => (
+          <nav aria-label={column.title} class="md:col-span-2">
+            <h2 class="folio">{column.title}</h2>
+            <ul class="mt-5 space-y-3">
+              {column.links.map((link) => (
+                <li>
+                  <a
+                    href={link.href}
+                    class="text-[14.5px] text-ink-soft transition-colors duration-200 hover:text-accent"
+                    target={link.href.startsWith('http') ? '_blank' : undefined}
+                    rel={link.href.startsWith('http') ? 'noreferrer noopener' : undefined}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))
+      }
+    </div>
+
+    <div class="grid gap-x-12 gap-y-8 py-10 md:grid-cols-12">
+      <div class="md:col-span-4">
+        <p class="folio">版权</p>
+        <p class="mt-3 text-[14.5px] leading-relaxed text-ink-mute">
+          双重许可，任选
+          <a href={doc('LICENSE-MIT')} class="text-ink-soft underline underline-offset-4 transition-colors hover:text-accent" target="_blank" rel="noreferrer noopener">MIT</a>
+          或
+          <a href={doc('LICENSE-APACHE')} class="text-ink-soft underline underline-offset-4 transition-colors hover:text-accent" target="_blank" rel="noreferrer noopener">Apache-2.0</a>。版权所有 © 2026 ArtCraft 团队与 WordCraft 贡献者。
+        </p>
+      </div>
+      <div class="md:col-span-8">
+        <p class="folio">商标</p>
+        <p class="mt-3 max-w-[90ch] text-[13.5px] leading-[1.85] text-ink-mute">
+          Microsoft 与 Microsoft Word 是微软集团公司的商标。WordCraft 是一个独立的开源项目，与微软公司无隶属、赞助或背书关系；提及这些名称仅用于描述其所兼容的工作流。所捆绑的字体、图标与图像保留各自的开放许可，作者与来源见 ATTRIBUTION.md。
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,71 @@
+---
+import { Icon } from 'astro-icon/components';
+import SectionHeader from '~/components/SectionHeader.astro';
+import { artcraftUrl, craftingApps } from '~/data/content';
+---
+
+<section id="apps" class="shell py-24 md:py-32">
+  <div data-reveal>
+    <SectionHeader
+      title="Crafting 应用系列"
+      standfirst="WordCraft 是 Crafting 应用系列的一员。这些工具由 ArtCraft 团队出品，免费、开源，每一款都用 Rust 从零写就，且都能独立运行。"
+    />
+  </div>
+
+  <ul class="mt-16 border-t-2 border-ink" data-reveal>
+    {
+      craftingApps.map((app, index) => (
+        <li
+          class:list={[
+            'grid grid-cols-[2.5rem_1fr] items-baseline gap-x-5 gap-y-1.5 border-b border-line py-5 md:grid-cols-[2.75rem_11rem_1fr_6rem]',
+            app.current ? 'bg-accent-soft' : 'transition-colors duration-300 hover:bg-raised',
+          ]}
+          style={`--reveal-delay: ${(index % 4) * 60}ms`}
+        >
+          <img
+            src={app.icon}
+            alt=""
+            width="40"
+            height="40"
+            loading="lazy"
+            decoding="async"
+            class="h-9 w-9 self-center"
+          />
+          <h3 class="self-center text-[16.5px] font-semibold tracking-tight text-ink">
+            <a
+              href={app.site}
+              target="_blank"
+              rel="noreferrer noopener"
+              class="transition-colors duration-200 hover:text-accent"
+            >
+              {app.name}
+            </a>
+          </h3>
+          <p class="col-start-2 text-[15px] leading-[1.7] text-ink-soft md:col-start-auto">
+            {app.duty}
+          </p>
+          <a
+            href={app.repo}
+            target="_blank"
+            rel="noreferrer noopener"
+            class="folio col-start-2 inline-flex items-center gap-1.5 transition-colors duration-200 hover:text-accent md:col-start-auto md:justify-self-end"
+          >
+            GitHub
+            <Icon name="ph:arrow-square-out" class="h-3.5 w-3.5" aria-hidden="true" />
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="mt-10 max-w-[62ch] text-[15.5px] leading-[1.9] text-ink-soft" data-reveal>
+    以及{' '}
+    <a
+      href={artcraftUrl}
+      class="text-ink underline underline-offset-4 transition-colors hover:text-accent"
+      target="_blank"
+      rel="noreferrer noopener">ArtCraft</a
+    >
+    本身，面向想要真正掌控权的艺术家的 AI 图像与视频工作室。
+  </p>
+</section>

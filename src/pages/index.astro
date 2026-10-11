@@ -1,0 +1,37 @@
+---
+import AgentsSection from '~/components/AgentsSection.astro';
+import AppsSection from '~/components/AppsSection.astro';
+import ArchitectureSection from '~/components/ArchitectureSection.astro';
+import CommunitySection from '~/components/CommunitySection.astro';
+import DownloadSection from '~/components/DownloadSection.astro';
+import FeatureSection from '~/components/FeatureSection.astro';
+import Hero from '~/components/Hero.astro';
+import PullQuote from '~/components/PullQuote.astro';
+import RoadmapSection from '~/components/RoadmapSection.astro';
+import SiteFooter from '~/components/SiteFooter.astro';
+import SiteHeader from '~/components/SiteHeader.astro';
+import Tour from '~/components/Tour.astro';
+import WhySection from '~/components/WhySection.astro';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="WordCraft · 用 Rust 从零重写的开源文字处理器"
+  description="WordCraft 是一款开源、以净室方式重新实现的文字处理器，完全用 Rust 重写。它沿用你早已熟悉的 Word 工作流，读写 .docx，原生运行于 macOS、Windows、Linux、BSD，也可通过 WebAssembly 在浏览器中使用。"
+>
+  <SiteHeader />
+  <main id="main">
+    <Hero />
+    <Tour />
+    <WhySection />
+    <PullQuote />
+    <FeatureSection />
+    <AgentsSection />
+    <ArchitectureSection />
+    <RoadmapSection />
+    <DownloadSection />
+    <AppsSection />
+    <CommunitySection />
+  </main>
+  <SiteFooter />
+</BaseLayout>

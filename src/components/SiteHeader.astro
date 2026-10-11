@@ -1,0 +1,122 @@
+---
+import { Icon } from 'astro-icon/components';
+import { navLinks, latestReleaseUrl } from '~/data/content';
+
+const primaryLinks = navLinks.filter((link) => link.href !== '/#download');
+---
+
+<header class="sticky top-0 z-50 border-b border-line bg-bg/85 backdrop-blur-md">
+  <div class="shell">
+    <div class="flex h-16 items-center justify-between gap-4 md:h-[68px]">
+      <a href="/" class="flex shrink-0 items-center gap-2.5" aria-label="WordCraft 首页">
+        <img
+          src="/images/brand/artcraft-mark.svg"
+          alt=""
+          width="26"
+          height="26"
+          class="h-[26px] w-[26px]"
+        />
+        <span class="serif text-[18px] font-semibold tracking-tight text-ink">WordCraft</span>
+        <span class="folio hidden sm:inline">文档排版</span>
+      </a>
+
+      <nav aria-label="主导航" class="hidden items-center gap-1 lg:flex">
+        {
+          primaryLinks.map((link) => (
+            <a
+              href={link.href}
+              class="rounded-control px-3 py-2 text-sm text-ink-soft transition-colors duration-200 hover:bg-raised hover:text-ink"
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <button
+          type="button"
+          data-theme-toggle
+          class="btn btn-ghost h-9 w-9 !px-0"
+          aria-label="切换深色模式"
+        >
+          <Icon name="ph:moon" class="h-[18px] w-[18px] dark:hidden" aria-hidden="true" />
+          <Icon name="ph:sun" class="hidden h-[18px] w-[18px] dark:block" aria-hidden="true" />
+        </button>
+
+        <a
+          href={latestReleaseUrl}
+          class="btn btn-primary hidden h-9 px-4 text-sm sm:inline-flex"
+        >
+          <Icon name="ph:download-simple" class="h-[17px] w-[17px]" aria-hidden="true" />
+          下载 WordCraft
+        </a>
+
+        <button
+          type="button"
+          data-menu-toggle
+          aria-expanded="false"
+          aria-controls="mobile-nav"
+          class="btn btn-ghost h-9 w-9 !px-0 lg:hidden"
+          aria-label="打开导航菜单"
+        >
+          <Icon name="ph:list" class="h-[20px] w-[20px]" aria-hidden="true" />
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="mobile-nav" hidden class="border-t border-line bg-surface lg:hidden">
+    <nav aria-label="移动端导航" class="shell flex flex-col gap-1 py-4">
+      {
+        navLinks
+          .filter((link) => link.href !== '/#download')
+          .map((link) => (
+            <a
+              href={link.href}
+              class="rounded-control px-3 py-2.5 text-[15px] text-ink-soft transition-colors duration-200 hover:bg-raised hover:text-ink"
+            >
+              {link.label}
+            </a>
+          ))
+      }
+      <a href={latestReleaseUrl} class="btn btn-primary mt-2 h-11 px-4 text-[15px] sm:hidden">
+        <Icon name="ph:download-simple" class="h-[17px] w-[17px]" aria-hidden="true" />
+        下载 WordCraft
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const root = document.documentElement;
+  const themeButton = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+
+  themeButton?.addEventListener('click', () => {
+    const dark = !root.classList.contains('dark');
+    root.classList.toggle('dark', dark);
+    try {
+      localStorage.setItem('wc-theme', dark ? 'dark' : 'light');
+    } catch (error) {
+      /* preference is not persisted, the toggle still works for this page */
+    }
+  });
+
+  const menuButton = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.getElementById('mobile-nav');
+
+  menuButton?.addEventListener('click', () => {
+    if (!menu) return;
+    const open = menu.hasAttribute('hidden');
+    menu.toggleAttribute('hidden', !open);
+    menuButton.setAttribute('aria-expanded', String(open));
+    menuButton.setAttribute('aria-label', open ? '关闭导航菜单' : '打开导航菜单');
+  });
+
+  menu?.addEventListener('click', (event) => {
+    if (!(event.target instanceof HTMLElement)) return;
+    if (event.target.tagName !== 'A') return;
+    menu.setAttribute('hidden', '');
+    menuButton?.setAttribute('aria-expanded', 'false');
+  });
+</script>

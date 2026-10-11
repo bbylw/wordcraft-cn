@@ -1,0 +1,18 @@
+---
+interface Props {
+  title: string;
+  standfirst: string;
+}
+
+const { title, standfirst } = Astro.props;
+---
+
+<div class="max-w-[54rem]">
+  <span class="sigil" aria-hidden="true"></span>
+  <h2 class="mt-5 text-[2rem] font-medium leading-[1.16] tracking-tight text-ink md:text-[2.375rem]">
+    {title}
+  </h2>
+  <p class="mt-5 max-w-[64ch] text-[17.5px] leading-[1.75] text-ink-soft">
+    {standfirst}
+  </p>
+</div>

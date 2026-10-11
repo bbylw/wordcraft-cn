@@ -186,7 +186,7 @@ const logNotes = [
               logPaths.map((item) => (
                 <li class="surface-card p-5">
                   <p class="folio font-semibold text-accent">{item.os}</p>
-                  <p class="mt-2.5 font-mono text-[12.5px] leading-5 text-ink [overflow-wrap:anywhere]">
+                  <p class="mt-2.5 font-mono text-[12.5px] leading-5 text-ink wrap-anywhere">
                     {item.path}
                   </p>
                   {item.hint ? <p class="mt-2 font-mono text-[11px] text-ink-mute">{item.hint}</p> : null}
@@ -199,7 +199,7 @@ const logNotes = [
             {
               logNotes.map((note) => (
                 <li class="flex gap-3 border-t border-line pt-4 text-[15.5px] leading-[1.85] text-ink-soft">
-                  <Icon name="ph:info" class="mt-[4px] h-[16px] w-[16px] shrink-0 text-accent" aria-hidden="true" />
+                  <Icon name="ph:info" class="mt-1 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
                   <span>{note}</span>
                 </li>
               ))

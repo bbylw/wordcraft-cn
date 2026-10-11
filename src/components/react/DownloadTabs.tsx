@@ -127,7 +127,7 @@ export default function DownloadTabs({ platforms, releaseUrl }: DownloadTabsProp
                         key={file.name}
                         className="flex flex-wrap items-center gap-x-4 gap-y-1.5 border-t border-line py-2.5 first:mt-2 first:border-t-0 first:pt-0"
                       >
-                        <code className="min-w-0 flex-1 font-mono text-[13.5px] leading-7 text-ink [overflow-wrap:anywhere]">
+                        <code className="min-w-0 flex-1 font-mono text-[13.5px] leading-7 text-ink wrap-anywhere">
                           {file.name}
                         </code>
                         {file.note ? <span className="folio">{file.note}</span> : null}

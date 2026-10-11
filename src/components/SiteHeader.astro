@@ -7,14 +7,14 @@ const primaryLinks = navLinks.filter((link) => link.href !== '/#download');
 
 <header class="sticky top-0 z-50 border-b border-line bg-bg/85 backdrop-blur-md">
   <div class="shell">
-    <div class="flex h-16 items-center justify-between gap-4 md:h-[68px]">
+    <div class="flex h-16 items-center justify-between gap-4 md:h-17">
       <a href="/" class="flex shrink-0 items-center gap-2.5" aria-label="WordCraft 首页">
         <img
           src="/images/brand/artcraft-mark.svg"
           alt=""
           width="26"
           height="26"
-          class="h-[26px] w-[26px]"
+          class="h-6.5 w-6.5"
         />
         <span class="serif text-[18px] font-semibold tracking-tight text-ink">WordCraft</span>
         <span class="folio hidden sm:inline">文档排版</span>
@@ -37,18 +37,18 @@ const primaryLinks = navLinks.filter((link) => link.href !== '/#download');
         <button
           type="button"
           data-theme-toggle
-          class="btn btn-ghost h-9 w-9 !px-0"
+          class="btn btn-ghost h-9 w-9 px-0!"
           aria-label="切换深色模式"
         >
-          <Icon name="ph:moon" class="h-[18px] w-[18px] dark:hidden" aria-hidden="true" />
-          <Icon name="ph:sun" class="hidden h-[18px] w-[18px] dark:block" aria-hidden="true" />
+          <Icon name="ph:moon" class="h-4.5 w-4.5 dark:hidden" aria-hidden="true" />
+          <Icon name="ph:sun" class="hidden h-4.5 w-4.5 dark:block" aria-hidden="true" />
         </button>
 
         <a
           href={latestReleaseUrl}
           class="btn btn-primary hidden h-9 px-4 text-sm sm:inline-flex"
         >
-          <Icon name="ph:download-simple" class="h-[17px] w-[17px]" aria-hidden="true" />
+          <Icon name="ph:download-simple" class="h-4.25 w-4.25" aria-hidden="true" />
           下载 WordCraft
         </a>
 
@@ -57,10 +57,10 @@ const primaryLinks = navLinks.filter((link) => link.href !== '/#download');
           data-menu-toggle
           aria-expanded="false"
           aria-controls="mobile-nav"
-          class="btn btn-ghost h-9 w-9 !px-0 lg:hidden"
+          class="btn btn-ghost h-9 w-9 px-0! lg:hidden"
           aria-label="打开导航菜单"
         >
-          <Icon name="ph:list" class="h-[20px] w-[20px]" aria-hidden="true" />
+          <Icon name="ph:list" class="h-5 w-5" aria-hidden="true" />
         </button>
       </div>
     </div>
@@ -81,7 +81,7 @@ const primaryLinks = navLinks.filter((link) => link.href !== '/#download');
           ))
       }
       <a href={latestReleaseUrl} class="btn btn-primary mt-2 h-11 px-4 text-[15px] sm:hidden">
-        <Icon name="ph:download-simple" class="h-[17px] w-[17px]" aria-hidden="true" />
+        <Icon name="ph:download-simple" class="h-4.25 w-4.25" aria-hidden="true" />
         下载 WordCraft
       </a>
     </nav>

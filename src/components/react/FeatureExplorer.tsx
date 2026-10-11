@@ -107,7 +107,7 @@ export default function FeatureExplorer({ domains }: FeatureExplorerProps) {
             <ul className="mt-9 grid gap-x-10 gap-y-4 border-t border-line pt-8 sm:grid-cols-2">
               {active.items.map((item) => (
                 <li key={item} className="flex gap-3 text-[15.5px] leading-[1.75] text-ink-soft">
-                  <CheckIcon size={15} weight="bold" className="mt-[4px] shrink-0 text-accent" />
+                  <CheckIcon size={15} weight="bold" className="mt-1 shrink-0 text-accent" />
                   <span>{item}</span>
                 </li>
               ))}

@@ -42,7 +42,7 @@ const site = new URL(Astro.url.pathname, Astro.site ?? Astro.url).origin;
       })();
     </script>
   </head>
-  <body class="min-h-[100dvh] antialiased">
+  <body class="min-h-dvh antialiased">
     <slot />
     <script>
       const targets = document.querySelectorAll<HTMLElement>('[data-reveal]');

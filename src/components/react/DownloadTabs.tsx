@@ -18,11 +18,38 @@ export default function DownloadTabs({ platforms, releaseUrl }: DownloadTabsProp
   const active = platforms.find((platform) => platform.id === activeId) ?? platforms[0];
   if (!active) return null;
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const currentIndex = platforms.findIndex((p) => p.id === active.id);
+    if (currentIndex === -1) return;
+
+    let nextIndex = -1;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      nextIndex = (currentIndex + 1) % platforms.length;
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      nextIndex = (currentIndex - 1 + platforms.length) % platforms.length;
+    } else if (e.key === 'Home') {
+      nextIndex = 0;
+    } else if (e.key === 'End') {
+      nextIndex = platforms.length - 1;
+    }
+
+    if (nextIndex !== -1) {
+      e.preventDefault();
+      const nextPlatform = platforms[nextIndex];
+      if (nextPlatform) {
+        setActiveId(nextPlatform.id);
+        const el = document.getElementById(`${baseId}-tab-${nextPlatform.id}`);
+        el?.focus();
+      }
+    }
+  };
+
   return (
     <div className="grid gap-8 md:grid-cols-12 md:gap-12">
       <div
         role="tablist"
         aria-label="下载平台"
+        onKeyDown={handleKeyDown}
         className="-mx-5 flex snap-x gap-1 overflow-x-auto px-5 pb-2 md:col-span-3 md:mx-0 md:flex-col md:gap-0 md:overflow-visible md:border-l md:border-line md:px-0 md:pb-0"
       >
         {platforms.map((platform) => {

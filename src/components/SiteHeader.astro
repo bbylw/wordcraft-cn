@@ -105,6 +105,13 @@ const primaryLinks = navLinks.filter((link) => link.href !== '/#download');
   const menuButton = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
   const menu = document.getElementById('mobile-nav');
 
+  function closeMenu() {
+    if (!menu || menu.hasAttribute('hidden')) return;
+    menu.setAttribute('hidden', '');
+    menuButton?.setAttribute('aria-expanded', 'false');
+    menuButton?.setAttribute('aria-label', '打开导航菜单');
+  }
+
   menuButton?.addEventListener('click', () => {
     if (!menu) return;
     const open = menu.hasAttribute('hidden');
@@ -116,7 +123,13 @@ const primaryLinks = navLinks.filter((link) => link.href !== '/#download');
   menu?.addEventListener('click', (event) => {
     if (!(event.target instanceof HTMLElement)) return;
     if (event.target.tagName !== 'A') return;
-    menu.setAttribute('hidden', '');
-    menuButton?.setAttribute('aria-expanded', 'false');
+    closeMenu();
+  });
+
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && menu && !menu.hasAttribute('hidden')) {
+      closeMenu();
+      menuButton?.focus();
+    }
   });
 </script>

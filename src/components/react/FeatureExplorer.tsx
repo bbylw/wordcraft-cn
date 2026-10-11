@@ -16,11 +16,38 @@ export default function FeatureExplorer({ domains }: FeatureExplorerProps) {
   const active = domains.find((domain) => domain.id === activeId) ?? domains[0];
   if (!active) return null;
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const currentIndex = domains.findIndex((d) => d.id === active.id);
+    if (currentIndex === -1) return;
+
+    let nextIndex = -1;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      nextIndex = (currentIndex + 1) % domains.length;
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      nextIndex = (currentIndex - 1 + domains.length) % domains.length;
+    } else if (e.key === 'Home') {
+      nextIndex = 0;
+    } else if (e.key === 'End') {
+      nextIndex = domains.length - 1;
+    }
+
+    if (nextIndex !== -1) {
+      e.preventDefault();
+      const nextDomain = domains[nextIndex];
+      if (nextDomain) {
+        setActiveId(nextDomain.id);
+        const el = document.getElementById(`${baseId}-tab-${nextDomain.id}`);
+        el?.focus();
+      }
+    }
+  };
+
   return (
     <div className="mt-16 grid gap-6 md:grid-cols-12 md:gap-12">
       <div
         role="tablist"
         aria-label="功能领域"
+        onKeyDown={handleKeyDown}
         className="-mx-5 flex snap-x gap-1 overflow-x-auto px-5 pb-2 md:col-span-4 md:mx-0 md:flex-col md:gap-0 md:overflow-visible md:border-l md:border-line md:px-0 md:pb-0"
       >
         {domains.map((domain) => {

@@ -63,13 +63,20 @@ export default function FeatureExplorer({ domains }: FeatureExplorerProps) {
               tabIndex={selected ? 0 : -1}
               onClick={() => setActiveId(domain.id)}
               className={cx(
-                'shrink-0 snap-start whitespace-nowrap rounded-control px-4 py-2.5 text-left text-[15px] transition-colors duration-200 md:w-full',
-                selected
-                  ? 'bg-raised font-medium text-ink md:bg-raised'
-                  : 'text-ink-mute hover:bg-raised hover:text-ink',
+                'relative shrink-0 snap-start whitespace-nowrap rounded-control px-4 py-2.5 text-left text-[15px] transition-colors duration-150 select-none md:w-full',
+                selected ? 'font-medium text-ink' : 'text-ink-mute hover:text-ink',
               )}
             >
-              {domain.label}
+              {selected && !reduceMotion ? (
+                <motion.div
+                  layoutId="active-feature-tab"
+                  className="absolute inset-0 rounded-control bg-raised shadow-sm"
+                  transition={{ type: 'spring', duration: 0.3, bounce: 0 }}
+                />
+              ) : selected ? (
+                <div className="absolute inset-0 rounded-control bg-raised shadow-sm" />
+              ) : null}
+              <span className="relative z-10">{domain.label}</span>
             </button>
           );
         })}
@@ -80,7 +87,7 @@ export default function FeatureExplorer({ domains }: FeatureExplorerProps) {
         role="tabpanel"
         aria-labelledby={`${baseId}-tab-${active.id}`}
         tabIndex={0}
-        className="min-w-0 md:col-span-8"
+        className="surface-card min-w-0 p-6 sm:p-9 md:col-span-8"
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.div

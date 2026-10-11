@@ -20,7 +20,12 @@ const colophon = [
 
 <section class="relative overflow-hidden">
   <div
-    class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[520px]"
+    class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[640px] bg-craft-grid opacity-75 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,#000_20%,transparent_100%)]"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[560px]"
     style="background: radial-gradient(58% 68% at 70% 0%, var(--hero-wash) 0%, transparent 72%);"
     aria-hidden="true"
   >
@@ -29,7 +34,13 @@ const colophon = [
   <div class="shell pt-14 md:pt-20">
     <div class="grid gap-x-12 gap-y-12 lg:grid-cols-12">
       <div class="lg:col-span-7">
-        <p data-enter style="--enter-delay: 40ms" class="folio">RUST · 净室实现 · 开源</p>
+        <div data-enter style="--enter-delay: 40ms" class="inline-flex items-center gap-2.5 rounded-full border border-line bg-surface/90 px-3.5 py-1 shadow-sm backdrop-blur-sm">
+          <span class="relative flex h-2 w-2">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75"></span>
+            <span class="relative inline-flex h-2 w-2 rounded-full bg-accent"></span>
+          </span>
+          <span class="folio !text-[11px] font-medium tracking-wider text-ink-soft">RUST · 净室实现 · 开源</span>
+        </div>
 
         <h1
           data-enter
@@ -66,7 +77,16 @@ const colophon = [
       </div>
 
       <figure class="lg:col-span-5" data-enter style="--enter-delay: 260ms">
-        <div class="overflow-hidden rounded-card border border-line bg-surface">
+        <div class="group relative overflow-hidden rounded-card border border-line bg-surface shadow-xl ring-1 ring-black/5 transition-all duration-300 hover:shadow-2xl dark:ring-white/10">
+          <div class="flex items-center justify-between border-b border-line bg-raised/70 px-3.5 py-2.5 backdrop-blur-sm">
+            <div class="flex items-center gap-1.5">
+              <span class="h-2.5 w-2.5 rounded-full bg-[#ff5f56]/90"></span>
+              <span class="h-2.5 w-2.5 rounded-full bg-[#ffbd2e]/90"></span>
+              <span class="h-2.5 w-2.5 rounded-full bg-[#27c93f]/90"></span>
+            </div>
+            <span class="max-w-[200px] truncate select-none font-mono text-[11px] text-ink-mute">The Open Studio Handbook.docx</span>
+            <div class="w-10"></div>
+          </div>
           <img
             src="/images/screens/hero.webp"
             alt="WordCraft 主界面：功能区的开始选项卡展开在一份两页文档之上，左侧导航窗格列出标题，样式库实时预览正文、标题 1、标题与副标题"
@@ -74,11 +94,11 @@ const colophon = [
             height="1000"
             fetchpriority="high"
             decoding="async"
-            class="block aspect-[16/10] w-full object-cover"
+            class="block aspect-[16/10] w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.01]"
           />
         </div>
         <figcaption class="mt-3.5 flex gap-3 border-t border-line pt-3">
-          <span class="folio shrink-0">示例文档</span>
+          <span class="folio shrink-0 font-medium text-accent">示例文档</span>
           <span class="text-[13.5px] leading-relaxed text-ink-soft">
             《The Open Studio Handbook》，功能区、实时样式库、标尺与导航窗格。
           </span>

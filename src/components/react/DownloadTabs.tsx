@@ -65,13 +65,20 @@ export default function DownloadTabs({ platforms, releaseUrl }: DownloadTabsProp
               tabIndex={selected ? 0 : -1}
               onClick={() => setActiveId(platform.id)}
               className={cx(
-                'shrink-0 snap-start whitespace-nowrap rounded-control px-4 py-2.5 text-left text-[15px] transition-colors duration-200 md:w-full',
-                selected
-                  ? 'bg-raised font-medium text-ink'
-                  : 'text-ink-mute hover:bg-raised hover:text-ink',
+                'relative shrink-0 snap-start whitespace-nowrap rounded-control px-4 py-2.5 text-left text-[15px] transition-colors duration-150 select-none md:w-full',
+                selected ? 'font-medium text-ink' : 'text-ink-mute hover:text-ink',
               )}
             >
-              {platform.label}
+              {selected && !reduceMotion ? (
+                <motion.div
+                  layoutId="active-download-tab"
+                  className="absolute inset-0 rounded-control bg-raised shadow-sm"
+                  transition={{ type: 'spring', duration: 0.3, bounce: 0 }}
+                />
+              ) : selected ? (
+                <div className="absolute inset-0 rounded-control bg-raised shadow-sm" />
+              ) : null}
+              <span className="relative z-10">{platform.label}</span>
             </button>
           );
         })}
@@ -82,7 +89,7 @@ export default function DownloadTabs({ platforms, releaseUrl }: DownloadTabsProp
         role="tabpanel"
         aria-labelledby={`${baseId}-tab-${active.id}`}
         tabIndex={0}
-        className="min-w-0 md:col-span-9"
+        className="surface-card min-w-0 p-6 sm:p-8 md:col-span-9"
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.div

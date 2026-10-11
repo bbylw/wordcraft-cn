@@ -181,15 +181,15 @@ const logNotes = [
             启动时没有终端，因此这个文件就是要附在缺陷报告里的内容。
           </p>
 
-          <ul class="mt-9 grid gap-0 sm:grid-cols-3">
+          <ul class="mt-9 grid gap-4 sm:grid-cols-3">
             {
               logPaths.map((item) => (
-                <li class="border-t border-line py-5 pr-0 sm:border-l sm:border-line sm:first:border-l-0 sm:pl-5 sm:first:pl-0">
-                  <p class="folio">{item.os}</p>
-                  <p class="mt-2 font-mono text-[12.5px] leading-5 text-ink [overflow-wrap:anywhere]">
+                <li class="surface-card p-5">
+                  <p class="folio font-semibold text-accent">{item.os}</p>
+                  <p class="mt-2.5 font-mono text-[12.5px] leading-5 text-ink [overflow-wrap:anywhere]">
                     {item.path}
                   </p>
-                  {item.hint ? <p class="mt-2 font-mono text-[11.5px] text-ink-mute">{item.hint}</p> : null}
+                  {item.hint ? <p class="mt-2 font-mono text-[11px] text-ink-mute">{item.hint}</p> : null}
                 </li>
               ))
             }

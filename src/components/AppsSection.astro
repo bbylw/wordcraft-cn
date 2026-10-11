@@ -12,13 +12,15 @@ import { artcraftUrl, craftingApps } from '~/data/content';
     />
   </div>
 
-  <ul class="mt-16 border-t-2 border-ink" data-reveal>
+  <ul class="mt-16 divide-y divide-line border-t-2 border-ink" data-reveal>
     {
       craftingApps.map((app, index) => (
         <li
           class:list={[
-            'grid grid-cols-[2.5rem_1fr] items-baseline gap-x-5 gap-y-1.5 border-b border-line py-5 md:grid-cols-[2.75rem_11rem_1fr_6rem]',
-            app.current ? 'bg-accent-soft' : 'transition-colors duration-300 hover:bg-raised',
+            'group -mx-3 grid grid-cols-[2.75rem_1fr] items-baseline gap-x-5 gap-y-2 rounded-card px-3 py-4.5 transition-all duration-200 md:grid-cols-[2.75rem_12.5rem_1fr_6.5rem]',
+            app.current
+              ? 'border border-accent/25 bg-accent/10 shadow-sm'
+              : 'hover:bg-raised/70',
           ]}
           style={`--reveal-delay: ${(index % 4) * 60}ms`}
         >
@@ -29,26 +31,33 @@ import { artcraftUrl, craftingApps } from '~/data/content';
             height="40"
             loading="lazy"
             decoding="async"
-            class="h-9 w-9 self-center"
+            class="h-9 w-9 self-center rounded-lg shadow-sm transition-transform duration-200 group-hover:scale-105"
           />
-          <h3 class="self-center text-[16.5px] font-semibold tracking-tight text-ink">
-            <a
-              href={app.site}
-              target="_blank"
-              rel="noreferrer noopener"
-              class="transition-colors duration-200 hover:text-accent"
-            >
-              {app.name}
-            </a>
-          </h3>
-          <p class="col-start-2 text-[15px] leading-[1.7] text-ink-soft md:col-start-auto">
+          <div class="flex flex-wrap items-center gap-2 self-center">
+            <h3 class="text-[16px] font-semibold tracking-tight text-ink">
+              <a
+                href={app.site}
+                target="_blank"
+                rel="noreferrer noopener"
+                class="transition-colors duration-200 hover:text-accent"
+              >
+                {app.name}
+              </a>
+            </h3>
+            {app.current ? (
+              <span class="rounded-full bg-accent/20 px-2 py-0.5 text-[11px] font-medium text-accent">
+                当前应用
+              </span>
+            ) : null}
+          </div>
+          <p class="col-start-2 text-[14.5px] leading-[1.7] text-ink-soft md:col-start-auto">
             {app.duty}
           </p>
           <a
             href={app.repo}
             target="_blank"
             rel="noreferrer noopener"
-            class="folio col-start-2 inline-flex items-center gap-1.5 transition-colors duration-200 hover:text-accent md:col-start-auto md:justify-self-end"
+            class="folio col-start-2 inline-flex items-center gap-1.5 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-accent md:col-start-auto md:justify-self-end"
           >
             GitHub
             <Icon name="ph:arrow-square-out" class="h-3.5 w-3.5" aria-hidden="true" />
